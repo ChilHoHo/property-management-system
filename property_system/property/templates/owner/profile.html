@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}个人信息{% endblock %}
+{% block content %}
+<h2>个人信息</h2>
+<div class="card">
+    <p><strong>用户名:</strong> {{ owner.user.username }}</p>
+    <p><strong>姓名:</strong> {{ owner.user.name }}</p>
+    <p><strong>角色:</strong> 业主</p>
+</div>
+
+<form method="post" class="form-card">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>电话</label>
+        <input type="text" name="phone" value="{{ owner.user.phone|default:'' }}" placeholder="手机号码">
+    </div>
+    {% for field in form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">保存修改</button>
+</form>
+{% endblock %}

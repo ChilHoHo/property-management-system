@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}业主管理{% endblock %}
+{% block content %}
+<h2>业主管理</h2>
+<a href="{% url 'staff_owner_create' %}" class="btn btn-primary">添加业主</a>
+
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>姓名</th><th>性别</th><th>电话</th><th>身份证号</th><th>地址</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+        {% for o in owners %}
+        <tr>
+            <td>{{ o.id }}</td>
+            <td>{{ o.user.name }}</td>
+            <td>{{ o.gender }}</td>
+            <td>{{ o.user.phone|default:'-' }}</td>
+            <td>{{ o.id_card }}</td>
+            <td>{{ o.address|default:'-' }}</td>
+            <td>
+                <a href="{% url 'staff_owner_edit' o.id %}" class="btn btn-sm">编辑</a>
+                <a href="{% url 'staff_owner_delete' o.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除该业主吗？将同时删除关联用户。')">删除</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="empty-row">暂无业主</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

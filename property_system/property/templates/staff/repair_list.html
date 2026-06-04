@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}报修处理{% endblock %}
+{% block content %}
+<h2>报修工单</h2>
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>报修人</th><th>房屋</th><th>内容</th><th>状态</th><th>处理人</th><th>提交时间</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+        {% for r in repairs %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.owner.user.name }}</td>
+            <td>{{ r.house.full_address }}</td>
+            <td>{{ r.content|truncatechars:30 }}</td>
+            <td><span class="badge {% if r.status == 2 %}badge-success{% elif r.status == 1 %}badge-info{% else %}badge-warning{% endif %}">{{ r.get_status_display }}</span></td>
+            <td>{{ r.staff.name|default:'-' }}</td>
+            <td>{{ r.submit_time|date:'Y-m-d H:i' }}</td>
+            <td>
+                {% if r.status != 2 %}
+                <a href="{% url 'staff_repair_process' r.id %}" class="btn btn-sm btn-primary">处理</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8" class="empty-row">暂无报修工单</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

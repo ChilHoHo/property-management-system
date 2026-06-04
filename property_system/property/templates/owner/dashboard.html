@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}业主主页{% endblock %}
+{% block content %}
+<div class="page-header"><h2>&#128075; 欢迎，{{ owner.user.name }}</h2></div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">&#127968;</div>
+        <div class="stat-number" style="font-size:22px;">{% if house %}{{ house.full_address }}{% else %}未绑定{% endif %}</div>
+        <div class="stat-label">我的房屋</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">&#128176;</div>
+        <div class="stat-number">{{ unpaid_count }}</div>
+        <div class="stat-label">待缴费用</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">&#128295;</div>
+        <div class="stat-number">{{ repair_count }}</div>
+        <div class="stat-label">报修记录</div>
+    </div>
+</div>
+{% endblock %}

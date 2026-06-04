@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}提交投诉建议{% endblock %}
+{% block content %}
+<h2>提交投诉或建议</h2>
+<form method="post" class="form-card">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>投诉/建议内容</label>
+        {{ form.content }}
+        {% if form.content.errors %}<span class="error">{{ form.content.errors.0 }}</span>{% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">提交</button>
+    <a href="{% url 'owner_complaint_list' %}" class="btn">返回</a>
+</form>
+{% endblock %}

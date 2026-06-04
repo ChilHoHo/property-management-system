@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}房屋管理{% endblock %}
+{% block content %}
+<h2>房屋管理</h2>
+<a href="{% url 'staff_house_create' %}" class="btn btn-primary">添加房屋</a>
+
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>楼栋</th><th>单元</th><th>房号</th><th>面积</th><th>户型</th><th>状态</th><th>业主</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+        {% for h in houses %}
+        <tr>
+            <td>{{ h.id }}</td>
+            <td>{{ h.building }}</td>
+            <td>{{ h.unit }}</td>
+            <td>{{ h.room }}</td>
+            <td>{{ h.area }}m²</td>
+            <td>{{ h.layout }}</td>
+            <td>{{ h.get_status_display }}</td>
+            <td>{{ h.owner.user.name|default:'无' }}</td>
+            <td>
+                <a href="{% url 'staff_house_edit' h.id %}" class="btn btn-sm">编辑</a>
+                <a href="{% url 'staff_house_delete' h.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除该房屋吗？')">删除</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="9" class="empty-row">暂无房屋</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

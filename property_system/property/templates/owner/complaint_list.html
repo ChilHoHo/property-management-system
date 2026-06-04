@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}投诉建议{% endblock %}
+{% block content %}
+<h2>我的投诉与建议</h2>
+<a href="{% url 'owner_complaint_create' %}" class="btn btn-primary">提交投诉/建议</a>
+
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>内容</th><th>状态</th><th>回复</th><th>回复时间</th><th>提交时间</th></tr>
+    </thead>
+    <tbody>
+        {% for c in complaints %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.content|truncatechars:40 }}</td>
+            <td>{{ c.get_status_display }}</td>
+            <td>{{ c.reply|default:'等待回复...' }}</td>
+            <td>{{ c.reply_time|date:'Y-m-d H:i'|default:'-' }}</td>
+            <td>{{ c.submit_time|date:'Y-m-d H:i' }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="empty-row">暂无投诉记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

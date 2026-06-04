@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}访客记录{% endblock %}
+{% block content %}
+<h2>访客记录</h2>
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>访客姓名</th><th>电话</th><th>事由</th><th>拜访房屋</th><th>来访时间</th><th>登记员工</th></tr>
+    </thead>
+    <tbody>
+        {% for v in visitors %}
+        <tr>
+            <td>{{ v.id }}</td>
+            <td>{{ v.name }}</td>
+            <td>{{ v.phone }}</td>
+            <td>{{ v.reason }}</td>
+            <td>{{ v.house.full_address }}</td>
+            <td>{{ v.visit_time|date:'Y-m-d H:i' }}</td>
+            <td>{{ v.staff.name|default:'-' }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="empty-row">暂无访客记录</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

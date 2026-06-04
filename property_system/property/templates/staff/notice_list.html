@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}公告管理{% endblock %}
+{% block content %}
+<h2>公告管理</h2>
+<a href="{% url 'staff_notice_create' %}" class="btn btn-primary">发布公告</a>
+
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>标题</th><th>内容</th><th>发布人</th><th>发布时间</th><th>业主可见</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+        {% for n in notices %}
+        <tr>
+            <td>{{ n.id }}</td>
+            <td>{{ n.title }}</td>
+            <td>{{ n.content|truncatechars:40 }}</td>
+            <td>{{ n.publisher.name }}</td>
+            <td>{{ n.publish_time|date:'Y-m-d H:i' }}</td>
+            <td>{{ n.is_public|yesno:'是,否' }}</td>
+            <td>
+                <a href="{% url 'staff_notice_edit' n.id %}" class="btn btn-sm">编辑</a>
+                <a href="{% url 'staff_notice_delete' n.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除该公告吗？')">删除</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="empty-row">暂无公告</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

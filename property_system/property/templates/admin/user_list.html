@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}用户管理{% endblock %}
+{% block content %}
+<h2>用户管理</h2>
+<a href="{% url 'admin_user_create' %}" class="btn btn-primary">创建用户</a>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>姓名</th>
+            <th>角色</th>
+            <th>电话</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.username }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.get_role_display }}</td>
+            <td>{{ u.phone|default:'-' }}</td>
+            <td>{{ u.created_at|date:'Y-m-d H:i' }}</td>
+            <td>
+                <a href="{% url 'admin_user_edit' u.id %}" class="btn btn-sm">编辑</a>
+                {% if u.role != 'admin' %}
+                <a href="{% url 'admin_user_delete' u.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定删除该用户吗？')">删除</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="empty-row">暂无用户</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

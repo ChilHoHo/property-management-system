@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}物业费查询{% endblock %}
+{% block content %}
+<h2>物业费账单</h2>
+<table class="data-table">
+    <thead>
+        <tr><th>ID</th><th>房屋</th><th>金额</th><th>月份</th><th>状态</th><th>缴费时间</th></tr>
+    </thead>
+    <tbody>
+        {% for f in fees %}
+        <tr>
+            <td>{{ f.id }}</td>
+            <td>{{ f.house.full_address }}</td>
+            <td>{{ f.amount }}元</td>
+            <td>{{ f.month }}</td>
+            <td><span class="badge {% if f.status == 1 %}badge-success{% else %}badge-warning{% endif %}">{{ f.get_status_display }}</span></td>
+            <td>{{ f.pay_time|date:'Y-m-d H:i'|default:'-' }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="empty-row">暂无物业费账单</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

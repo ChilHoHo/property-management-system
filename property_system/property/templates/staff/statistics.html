@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}统计报表{% endblock %}
+{% block content %}
+<h2>统计报表</h2>
+
+<div class="card">
+    <h3>物业费收缴统计</h3>
+    <form method="get" class="inline-form">
+        <input type="month" name="fee_month" value="{{ fee_month }}">
+        <button type="submit" class="btn btn-primary">查询</button>
+    </form>
+    {% if fee_stats %}
+    <table class="data-table" style="margin-top:10px;">
+        <thead><tr><th>月份</th><th>总金额</th><th>已缴金额</th><th>未缴金额</th><th>收缴率</th></tr></thead>
+        <tbody>
+            {% for row in fee_stats %}
+            <tr><td>{{ row.1 }}</td><td>{{ row.2 }}元</td><td>{{ row.3 }}元</td><td>{{ row.4 }}元</td><td>{{ row.5|floatformat:1 }}%</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}<p class="empty-row">暂无数据</p>{% endif %}
+</div>
+
+<div class="card">
+    <h3>报修统计</h3>
+    <form method="get" class="inline-form">
+        <input type="date" name="repair_start" value="{{ repair_start }}">
+        <span>至</span>
+        <input type="date" name="repair_end" value="{{ repair_end }}">
+        <button type="submit" class="btn btn-primary">查询</button>
+    </form>
+    {% if repair_stats %}
+    <table class="data-table" style="margin-top:10px;">
+        <thead><tr><th>状态</th><th>数量</th></tr></thead>
+        <tbody>
+            {% for row in repair_stats %}
+            <tr><td>{{ row.0 }}</td><td>{{ row.1 }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}<p class="empty-row">暂无数据</p>{% endif %}
+</div>
+
+<div class="card">
+    <h3>欠费明细（视图 view_owe_fee）</h3>
+    <table class="data-table">
+        <thead><tr><th>业主姓名</th><th>房屋</th><th>欠费金额</th><th>月份</th></tr></thead>
+        <tbody>
+            {% for row in owe_list %}
+            <tr><td>{{ row.owner_name }}</td><td>{{ row.house_addr }}</td><td>{{ row.amount }}元</td><td>{{ row.month }}</td></tr>
+            {% empty %}
+            <tr><td colspan="4" class="empty-row">无欠费记录</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>报修进度（视图 view_repair_progress）</h3>
+    <table class="data-table">
+        <thead><tr><th>报修人</th><th>内容</th><th>状态</th><th>处理人</th></tr></thead>
+        <tbody>
+            {% for row in repair_progress %}
+            <tr><td>{{ row.owner_name }}</td><td>{{ row.content|truncatechars:30 }}</td><td>{{ row.status }}</td><td>{{ row.staff_name|default:'未分配' }}</td></tr>
+            {% empty %}
+            <tr><td colspan="4" class="empty-row">无报修记录</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

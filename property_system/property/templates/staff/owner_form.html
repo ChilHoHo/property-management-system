@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }}业主{% endblock %}
+{% block content %}
+<h2>{{ action }}业主</h2>
+<form method="post" class="form-card">
+    {% csrf_token %}
+
+    {% if user_form %}
+    <h3>账号信息</h3>
+    {% for field in user_form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <h3>业主详情</h3>
+    {% for field in owner_form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">保存</button>
+    <a href="{% url 'staff_owner_list' %}" class="btn">返回</a>
+</form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}处理报修{% endblock %}
+{% block content %}
+<h2>处理报修工单 #{{ repair.id }}</h2>
+<div class="card">
+    <p><strong>报修人:</strong> {{ repair.owner.user.name }}</p>
+    <p><strong>房屋:</strong> {{ repair.house.full_address }}</p>
+    <p><strong>内容:</strong> {{ repair.content }}</p>
+    <p><strong>提交时间:</strong> {{ repair.submit_time|date:'Y-m-d H:i' }}</p>
+    <p><strong>当前状态:</strong> {{ repair.get_status_display }}</p>
+</div>
+
+<form method="post" class="form-card">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">提交处理</button>
+    <a href="{% url 'staff_repair_list' %}" class="btn">返回</a>
+</form>
+{% endblock %}

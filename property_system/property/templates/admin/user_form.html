@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }}用户{% endblock %}
+{% block content %}
+<h2>{{ action }}用户</h2>
+<form method="post" class="form-card">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">保存</button>
+    <a href="{% url 'admin_user_list' %}" class="btn">返回</a>
+</form>
+{% endblock %}
