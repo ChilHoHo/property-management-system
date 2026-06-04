@@ -7,7 +7,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-property-management-system-2024'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-dev-only-change-me')
 
 DEBUG = True
 
@@ -59,7 +59,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'property_db',           # 数据库名（需先在 MySQL 中创建）
         'USER': 'root',                  # MySQL 用户名
-        'PASSWORD': '123456',            # MySQL 密码（改成你自己的）
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD', ''),  # 从环境变量读取
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
